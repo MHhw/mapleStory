@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 1. 이후 jquery 걷어내기 -->
+<!-- 2. 효과 별로인 것 같으면 없애기 -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+	jQuery(function($) {
+	    $("#a").css("display", "none");
+	    $("#a").fadeIn(2000);
+	    function redirectPage() {
+	    window.location = linkLocation;
+	    }
+	});
+</script>
+<!-- 1. 이후 jquery 걷어내기 -->
+<!-- 2. 효과 별로인 것 같으면 없애기 -->
+
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <style>
+		#a {
+             grid-template-columns: repeat(5, minmax(230px, auto));
+             grid-template-rows:  minmax(400px, auto);
+             display:grid;
+            }
+		#a { margin-bottom:30px; }
+		#a { margin-top:30px; }
+
+    </style>
+</head>
+<body>
+    <div id="a"></div>
+    <div id="b"></div>
+
+    <input type="hidden" id="mapleId" th:value="${id}">
+    <input type="button" id="testBtn" value="클릭" onclick="testClick();">
+
+    <form action="/fileTest" method="get">
+        <textarea id="abcid" name="abcid" style="height:300px"></textarea>
+        <button type="submit">파일테스트</button>
+    </form>
+
+    <form action="/dbTest" method="get">
+        <textarea id="dbTest" name="dbTest" style="height:300px"></textarea>
+        <button type="submit">DB테스트11</button>
+    </form>
+
+    <script>
+        var tmp = '';
+
+        function bj(){
+            var e = document.getElementById("excelId").value
+            console.log(e);
+
+            $.ajax({
+                url: "/excel",
+                data: { id : e },
+                type: "GET",
+                success:function(){
+                    console.log("ok");
+                },
+                error:function(){
+                    console.log('error');
+                }
+            });
+        }
+
+        function aj(aid){
+            console.log(aid);
+
+            $.ajax({
+                url: "/callTest",
+                data: { id : aid },
+                type: "GET",
+                async : false,
+                success:function(characterData){
+                    console.log(characterData);
+                    tmp += characterData+ ',';
+                },
+                error:function(){
+                    console.log('error');
+                }
+            });
+        }
+
+        function testClick(){
+            jQuery(function($) {
+                $("#b").css("display", "none");
+                $("#b").fadeIn(2000);
+            });
+            $('#b').append("-----");
+        }
+    </script>
+
+    <script>
+
+        var at = document.getElementById("mapleId")
+                        .value
+
+        var t = document.getElementById("mapleId")
+                        .value
+                        .replace('\n입력받은 ID 리스트\n\n-', '')
+                        .replace(/\n/g, '')
+                        .replace(/ /g, '')
+                        .split('-')
+
+
+        for(var no = 0; no<5; no++){
+            console.log("--------");
+            console.log(no);
+
+            aj(no);
+            console.log(tmp);
+
+            console.log("check");
+        }
+
+        var h_tmp = '';
+        var l_tmp = tmp.split(",")
+        console.log(l_tmp);
+        for(var w =0; w<l_tmp.length-1;w++) {
+            console.log(l_tmp.length, l_tmp[w]);
+            h_tmp += "<p>" + l_tmp[w] + "</p>"
+        }
+        $('#a').append(h_tmp);
+
+
+    </script>
+</body>
+
+</html>

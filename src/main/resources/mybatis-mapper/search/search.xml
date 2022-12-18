@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="toy.mapleStory.search.service.searchMapper">
+    <select id="totalList" resultType="toy.mapleStory.search.vo.testVO">
+        SELECT IDX, INFO_CHK, UPDATE_DATE, NAME, FILE_LOCATION
+        FROM MAPLE_INFO
+        ORDER BY IDX
+    </select>
+
+    <insert id="insertList" parameterType="toy.mapleStory.search.vo.testVO">
+        INSERT INTO MAPLE_INFO(IDX,INFO_CHK,UPDATE_DATE,NAME,FILE_LOCATION)
+        VALUES(  ( SELECT count(idx) FROM MAPLE_INFO )+1
+                ,0
+                ,( SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM DUAL )
+                , #{ name }
+                , #{ fileLocation }
+        )
+    </insert>
+</mapper>
+
