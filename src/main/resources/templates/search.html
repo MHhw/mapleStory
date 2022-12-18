@@ -25,18 +25,24 @@
     </div>
 
     <div class="right">
-        <form id="userId" action="/searchInfo.do" method="POST">
+        <form id="userId" action="/searchInfo" method="POST">
             <textarea readonly id="showId" name="showId" style="height:300px"></textarea>
             <input type="submit" value="id 전송">
         </form>
     </div>
 
-    <div class="searchItem">
-        <form id="userItem" action="/searchDetailInfo.do" method="POST">
-            Item 검색 : <input type="text" id='item' name='item'/>
-            <input type="submit" value="전송">
+    <div class="left">
+        <input type="text" id="inputId2" style="height:300px">
+        <input type="button" value="-->" onclick="send2();">
+    </div>
+
+    <div class="right">
+        <form id="userId2" action="/searchInfoTest" method="POST">
+            <textarea readonly id="showId2" name="showId2" style="height:300px"></textarea>
+            <input type="submit" value="id 전송Test">
         </form>
     </div>
+
 </div>
 
 <script>
@@ -51,6 +57,19 @@
       }
 
       document.getElementById("showId").value=showId;
+    }
+
+    function send2(){
+      document.getElementById("showId2").value='';
+
+      var inputId = document.getElementById("inputId2").value.replace(/ /g, "").split(",");
+      var showId = '\n입력받은 ID 리스트\n\n';
+
+      for(var i=0; i<inputId.length; i++){
+          showId += "- "+inputId[i]+"\n";
+      }
+
+      document.getElementById("showId2").value=showId;
     }
 
 </script>

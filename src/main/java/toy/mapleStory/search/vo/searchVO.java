@@ -1,4 +1,4 @@
-package toy.mapleStory.vo;
+package toy.mapleStory.search.vo;
 
 public class searchVO {
 
